@@ -1,18 +1,24 @@
 const router = require('express').Router();
 const User = require('../models/User');
+const { registerSchema } = require('../services/validation');
 
-router.post('/register', async (req, res)=>{
-    const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-    });
+router.post('/register', async (req, res, next)=>{
 
     try {
+        const user = new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+        });
+
+        const result = await registerSchema.validateAsync(req.body);
+
         savedUser = await user.save();
-        res.send(savedUser);
+        res.send(savedUser)
+
     } catch (error) {
-        res.statusCode(400).send(error);
+        if(error.isJoi === true) error.status = 422;
+        next(error);
     }
 });
 
