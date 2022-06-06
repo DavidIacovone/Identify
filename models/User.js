@@ -1,5 +1,4 @@
 const mongo = require('mongoose');
-const { required } = require('nodemon/lib/config');
 
 const userSchema = new mongo.Schema({
     name: {
