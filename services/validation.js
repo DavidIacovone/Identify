@@ -6,5 +6,10 @@ const registerSchema = joi.object({
     password: joi.string().required().min(6)
 });
 
+const loginSchema = joi.object({
+    email: joi.string().required().email(),
+    password: joi.string().required().min(6)
+});
+
 
 module.exports = { registerSchema }
