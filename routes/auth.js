@@ -2,10 +2,11 @@ const router = require('express').Router();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const verify = require('../services/tokenVerification');
 const { registerSchema, loginSchema } = require('../services/validation');
 
 //register endpoint
-router.post('/register', async (req, res, next)=>{
+router.post('/register', async (req, res, next)=> {
 
     try { 
         
@@ -38,7 +39,7 @@ router.post('/register', async (req, res, next)=>{
 });
 
 //login endpoint
-router.post('/login', async (req, res) =>{
+router.post('/login', async (req, res) => {
 
     try {
 
@@ -63,6 +64,11 @@ router.post('/login', async (req, res) =>{
         next(error);
     }
 
+});
+
+//authorization endpoint
+router.get('/authorize', verify, (req, res) => {
+    res.status(200).send("User authorized");
 });
 
 module.exports = router;
