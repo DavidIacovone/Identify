@@ -3,6 +3,7 @@ const bcryptjs = require('bcryptjs');
 const User = require('../models/User');
 const { registerSchema } = require('../services/validation');
 
+//register endpoint
 router.post('/register', async (req, res, next)=>{
 
     try { 
@@ -27,12 +28,18 @@ router.post('/register', async (req, res, next)=>{
 
         //save the user to the database
         savedUser = await user.save();
-        res.status(201).send(savedUser)
+        res.status(201).send({user: user._id})
 
     } catch (error) {
         if(error.isJoi === true) error.status = 422;
         next(error);
     }
+});
+
+//login endpoint
+router.post('/login', async (req, res) =>{
+    
+
 });
 
 module.exports = router;
